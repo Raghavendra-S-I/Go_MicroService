@@ -1,4 +1,5 @@
-Accounts
+package main
 
-Products
-
+type queryResolver struct {
+	server *
+}

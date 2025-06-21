@@ -55,8 +55,8 @@ type ComplexityRoot struct {
 	}
 
 	Mutation struct {
-		CraeteOrder    func(childComplexity int, order OrderInput) int
 		CreatedAccount func(childComplexity int, account AccountInput) int
+		CreatedOrder   func(childComplexity int, order OrderInput) int
 		CreatedProduct func(childComplexity int, product ProductInput) int
 	}
 
@@ -94,7 +94,7 @@ type AccountResolver interface {
 type MutationResolver interface {
 	CreatedAccount(ctx context.Context, account AccountInput) (*Account, error)
 	CreatedProduct(ctx context.Context, product ProductInput) (*Product, error)
-	CraeteOrder(ctx context.Context, order OrderInput) (*Order, error)
+	CreatedOrder(ctx context.Context, order OrderInput) (*Order, error)
 }
 type QueryResolver interface {
 	Accounts(ctx context.Context, pagination *PaginationInput, id *string) ([]*Account, error)
@@ -141,18 +141,6 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 
 		return e.complexity.Account.Orders(childComplexity), true
 
-	case "Mutation.craeteOrder":
-		if e.complexity.Mutation.CraeteOrder == nil {
-			break
-		}
-
-		args, err := ec.field_Mutation_craeteOrder_args(ctx, rawArgs)
-		if err != nil {
-			return 0, false
-		}
-
-		return e.complexity.Mutation.CraeteOrder(childComplexity, args["order"].(OrderInput)), true
-
 	case "Mutation.createdAccount":
 		if e.complexity.Mutation.CreatedAccount == nil {
 			break
@@ -164,6 +152,18 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Mutation.CreatedAccount(childComplexity, args["account"].(AccountInput)), true
+
+	case "Mutation.createdOrder":
+		if e.complexity.Mutation.CreatedOrder == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_createdOrder_args(ctx, rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.CreatedOrder(childComplexity, args["order"].(OrderInput)), true
 
 	case "Mutation.createdProduct":
 		if e.complexity.Mutation.CreatedProduct == nil {
@@ -421,34 +421,6 @@ var parsedSchema = gqlparser.MustLoadSchema(sources...)
 
 // region    ***************************** args.gotpl *****************************
 
-func (ec *executionContext) field_Mutation_craeteOrder_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
-	var err error
-	args := map[string]any{}
-	arg0, err := ec.field_Mutation_craeteOrder_argsOrder(ctx, rawArgs)
-	if err != nil {
-		return nil, err
-	}
-	args["order"] = arg0
-	return args, nil
-}
-func (ec *executionContext) field_Mutation_craeteOrder_argsOrder(
-	ctx context.Context,
-	rawArgs map[string]any,
-) (OrderInput, error) {
-	if _, ok := rawArgs["order"]; !ok {
-		var zeroVal OrderInput
-		return zeroVal, nil
-	}
-
-	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("order"))
-	if tmp, ok := rawArgs["order"]; ok {
-		return ec.unmarshalNOrderInput2githubᚗcomᚋRaghavendraᚑSᚑIᚋgoᚑgrpcᚑmicroserviceᚋgraphqlᚐOrderInput(ctx, tmp)
-	}
-
-	var zeroVal OrderInput
-	return zeroVal, nil
-}
-
 func (ec *executionContext) field_Mutation_createdAccount_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
 	var err error
 	args := map[string]any{}
@@ -474,6 +446,34 @@ func (ec *executionContext) field_Mutation_createdAccount_argsAccount(
 	}
 
 	var zeroVal AccountInput
+	return zeroVal, nil
+}
+
+func (ec *executionContext) field_Mutation_createdOrder_args(ctx context.Context, rawArgs map[string]any) (map[string]any, error) {
+	var err error
+	args := map[string]any{}
+	arg0, err := ec.field_Mutation_createdOrder_argsOrder(ctx, rawArgs)
+	if err != nil {
+		return nil, err
+	}
+	args["order"] = arg0
+	return args, nil
+}
+func (ec *executionContext) field_Mutation_createdOrder_argsOrder(
+	ctx context.Context,
+	rawArgs map[string]any,
+) (OrderInput, error) {
+	if _, ok := rawArgs["order"]; !ok {
+		var zeroVal OrderInput
+		return zeroVal, nil
+	}
+
+	ctx = graphql.WithPathContext(ctx, graphql.NewPathWithField("order"))
+	if tmp, ok := rawArgs["order"]; ok {
+		return ec.unmarshalNOrderInput2githubᚗcomᚋRaghavendraᚑSᚑIᚋgoᚑgrpcᚑmicroserviceᚋgraphqlᚐOrderInput(ctx, tmp)
+	}
+
+	var zeroVal OrderInput
 	return zeroVal, nil
 }
 
@@ -1042,8 +1042,8 @@ func (ec *executionContext) fieldContext_Mutation_createdProduct(ctx context.Con
 	return fc, nil
 }
 
-func (ec *executionContext) _Mutation_craeteOrder(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Mutation_craeteOrder(ctx, field)
+func (ec *executionContext) _Mutation_createdOrder(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_createdOrder(ctx, field)
 	if err != nil {
 		return graphql.Null
 	}
@@ -1056,7 +1056,7 @@ func (ec *executionContext) _Mutation_craeteOrder(ctx context.Context, field gra
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (any, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().CraeteOrder(rctx, fc.Args["order"].(OrderInput))
+		return ec.resolvers.Mutation().CreatedOrder(rctx, fc.Args["order"].(OrderInput))
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -1070,7 +1070,7 @@ func (ec *executionContext) _Mutation_craeteOrder(ctx context.Context, field gra
 	return ec.marshalOOrder2ᚖgithubᚗcomᚋRaghavendraᚑSᚑIᚋgoᚑgrpcᚑmicroserviceᚋgraphqlᚐOrder(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) fieldContext_Mutation_craeteOrder(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+func (ec *executionContext) fieldContext_Mutation_createdOrder(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "Mutation",
 		Field:      field,
@@ -1097,7 +1097,7 @@ func (ec *executionContext) fieldContext_Mutation_craeteOrder(ctx context.Contex
 		}
 	}()
 	ctx = graphql.WithFieldContext(ctx, fc)
-	if fc.Args, err = ec.field_Mutation_craeteOrder_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+	if fc.Args, err = ec.field_Mutation_createdOrder_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
 		ec.Error(ctx, err)
 		return fc, err
 	}
@@ -4181,9 +4181,9 @@ func (ec *executionContext) _Mutation(ctx context.Context, sel ast.SelectionSet)
 			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
 				return ec._Mutation_createdProduct(ctx, field)
 			})
-		case "craeteOrder":
+		case "createdOrder":
 			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
-				return ec._Mutation_craeteOrder(ctx, field)
+				return ec._Mutation_createdOrder(ctx, field)
 			})
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
