@@ -65,3 +65,5 @@ func (s *grpcServer) GetAccounts(ctx context.Context, r *pb.GetAccountsRequest) 
 	}
 	return &pb.GetAccountsResponse{Accounts:accounts},nil
 }
+
+func 
