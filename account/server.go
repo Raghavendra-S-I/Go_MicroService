@@ -19,19 +19,19 @@ func ListenGRPC(s Service, port int)error{
 		return err
 	}
 	serv:=grpc.NewServer()
-	pb.(serv,)
+	pb.RegisterAccountServiceServer(serv,&grpcServer{s})
 	reflection.Register(serv)
 	return serv.Serve(lis)
 }
 
 
-func (s *grpcServer) PostAccount(ctx context.Context, r *pb.PostAccountRequest)( *pb.PostAccountResponse,er ror){ 
+func (s *grpcServer) PostAccount(ctx context.Context, r *pb.PostAccountRequest)( *pb.PostAccountResponse,error){ 
 	a, err := s.service.PostAccount(ctx, r.Name)
 	if err != nil {
 		return err, nil
 	}
 	return &pb.PostAccountResponse{Account: &pb.Account{
-		Id: a.ID
+		Id: a.ID,
 		Name: a.Name,
 	}},nil
 }
@@ -65,5 +65,3 @@ func (s *grpcServer) GetAccounts(ctx context.Context, r *pb.GetAccountsRequest) 
 	}
 	return &pb.GetAccountsResponse{Accounts:accounts},nil
 }
-
-func 
