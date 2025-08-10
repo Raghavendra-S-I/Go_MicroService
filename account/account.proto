@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package pb;
 
-option go_package = "github.com/Raghavendra-S-I/go-grpc-microservice/account/pb";
+option go_package = "./";
 
 // Message definitions
 message Account {

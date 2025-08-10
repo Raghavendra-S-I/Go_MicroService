@@ -5,7 +5,7 @@ WORKDIR /src
 COPY go.mod go.sum ./
 COPY vendor vendor
 COPY account account
-RUN go build -mod vendor -o /app ./account/cmd/account
+RUN go build -mod vendor -o /app ./catalog/cmd/catalog
 
 # Final minimal stage
 FROM alpine:3.20

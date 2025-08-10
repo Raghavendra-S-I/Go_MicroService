@@ -50,7 +50,7 @@ func (s *grpcServer) GetAccount(ctx context.Context, r *pb.GetAccountRequest)( *
 }
 
 func (s *grpcServer) GetAccounts(ctx context.Context, r *pb.GetAccountsRequest) (*pb.GetAccountsResponse, error){
-	res,err:=s.service.GetAccounts((ctx, r.Id))
+	res,err:=s.service.GetAccounts((ctx, r.Skip , r.Take))
 	if err!=nil{
 		return nil,err
 	}
