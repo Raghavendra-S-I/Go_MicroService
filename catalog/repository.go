@@ -13,13 +13,6 @@ var (
 	ErrNotFound = errors.New("Entity not found")
 )
 
-type Product struct {
-	ID          string `json:"id"`
-	Name        string `json:"name"`
-	Description string `json:"description"`
-	Price       string `json:"price"`
-}
-
 type Repository interface {
 	Close()
 	PutProduct(ctx context.Context, p Product) error
