@@ -16,15 +16,19 @@ type AppConfig struct {
 }
 
 func main() {
+
 	var cfg AppConfig
+
 	err := envconfig.Process("", &cfg)
 	if err != nil {
 		log.Fatal(err)
 	}
+
 	s, err := NewGraphQLServer(cfg.AccountURL, cfg.CatalogURL, cfg.OrderURL)
 	if err != nil {
 		log.Fatal(err)
 	}
+
 	http.Handle("/graphql", handler.GraphQL(s.ToExecutableSchema()))
 	http.Handle("/playground", playground.Handler("raghu", "/graphql"))
 
