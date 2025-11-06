@@ -1,0 +1,25 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "go",
+      "request": "launch",
+      "name": "Launch Go service",
+      "mode": "debug",
+      "program": "${workspaceFolder}/${input:servicePath}",
+      "cwd": "${workspaceFolder}"
+    }
+  ],
+  "inputs": [
+    {
+      "id": "servicePath",
+      "type": "pickString",
+      "description": "Select the package folder or Go file to run/debug (workspace relative)",
+      "options": [
+        "account/cmd/account",
+        "graphql",
+        "catalog/cmd/catalog"
+      ]
+    }
+  ]
+}
